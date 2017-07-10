@@ -90,14 +90,14 @@
 
 // All ROS topics emitted by this plugin with have the
 // namespace "/fdmUDP" prepended.
-#define ROS_NAMESPACE     "/fdmUDP"
+#define ROS_NAMESPACE     "fdmUDP"
 
 
 //--------------------------------------------
 // Communication with Ardupilot
 
-#define PORT_DATA_FROM_ARDUPILOT       9002
-#define PORT_DATA_TO_ARDUPILOT         9003
+//#define PORT_DATA_FROM_ARDUPILOT       9002
+//#define PORT_DATA_TO_ARDUPILOT         9003
 
 // Messages passed
 #define NB_SERVOS                 16
@@ -167,7 +167,7 @@ class ArdupilotSitlGazeboPlugin : public WorldPlugin
                                    ardupilot_sitl_gazebo_plugin::ReleaseApmLapseLock::Response &res);
 
     
-    
+ 
   protected:
     /*
       packet sent to ardupilot_sitl_gazebo
@@ -200,7 +200,7 @@ class ArdupilotSitlGazeboPlugin : public WorldPlugin
     // Initialization methods ------------------
     bool init_ros_side();
     bool init_gazebo_side(physics::WorldPtr world, sdf::ElementPtr sdf);
-    bool init_ardupilot_side();
+    bool init_ardupilot_side(sdf::ElementPtr sdf);
       
     // MAIN LOOP related methods ---------------
     void loop_thread();
@@ -208,8 +208,8 @@ class ArdupilotSitlGazeboPlugin : public WorldPlugin
     void clear_lapseLock();
 
     // ARDUPILOT related methods --------------
-    bool open_control_socket();
-    bool open_fdm_socket();
+    bool open_control_socket(sdf::ElementPtr sdf);
+    bool open_fdm_socket(sdf::ElementPtr sdf);
     bool receive_apm_input();
     void send_apm_output();
 
@@ -263,6 +263,7 @@ class ArdupilotSitlGazeboPlugin : public WorldPlugin
     // Vehicle parameters
     std::string                 _modelName;
     int 			            _nbMotorSpeed;
+    //sdf::ElementPtr 		sdf;
     
     // Timing
     ros::Duration               _control_period;

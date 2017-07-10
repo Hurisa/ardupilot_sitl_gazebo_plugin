@@ -33,11 +33,11 @@ namespace gazebo
   Initializes variables and ports related to ArduPilot.
   In case of fatal failure, returns 'false'.
  */
-bool ArdupilotSitlGazeboPlugin::init_ardupilot_side()
+bool ArdupilotSitlGazeboPlugin::init_ardupilot_side(sdf::ElementPtr sdf)
 {
     // Setup network infrastructure (opens ports from/to ArduPilot)
-    open_control_socket();
-    open_fdm_socket();
+    open_control_socket(sdf);
+    open_fdm_socket(sdf);
 
     return true;
 }
@@ -50,12 +50,21 @@ bool ArdupilotSitlGazeboPlugin::init_ardupilot_side()
 /*
   open control socket from ArduPilot
  */
-bool ArdupilotSitlGazeboPlugin::open_control_socket()
+bool ArdupilotSitlGazeboPlugin::open_control_socket(sdf::ElementPtr sdf)
 {
     if (_is_control_socket_open)
         return true;
 
     ROS_INFO( PLUGIN_LOG_PREPEND "Binding to listening port from ArduPilot...\n");
+    
+    int PORT_DATA_FROM_ARDUPILOT = 0;
+    ROS_INFO( "INITIALIZED PORT\n");
+    if (sdf->HasElement("PORT_NO")){
+	ROS_INFO("CHECK IT HAS ELEMENT\n");
+	PORT_DATA_FROM_ARDUPILOT = sdf->Get<int>("PORT_NO");
+    }	
+    ROS_INFO( "PORT NUMBER: %d \n", PORT_DATA_FROM_ARDUPILOT);
+
     if (!_sock_control_from_ardu->bind("127.0.0.1", PORT_DATA_FROM_ARDUPILOT)) {
         ROS_WARN( PLUGIN_LOG_PREPEND "FAILED to bind to port from ArduPilot\n");
         return false;
@@ -72,12 +81,23 @@ bool ArdupilotSitlGazeboPlugin::open_control_socket()
 /*
   open fdm socket to ArduPilot
  */
-bool ArdupilotSitlGazeboPlugin::open_fdm_socket()
+bool ArdupilotSitlGazeboPlugin::open_fdm_socket(sdf::ElementPtr sdf)
 {
     if (_is_fdm_socket_open)
         return true;
 
     ROS_INFO( PLUGIN_LOG_PREPEND "Connecting send port to ArduPilot...\n");
+
+    int PORT_DATA_TO_ARDUPILOT = 0;
+    ROS_INFO( "INITIALIZED PORT\n");
+    if (sdf->HasElement("PORT_OUT")){
+	ROS_INFO("CHECK IT HAS ELEMENT\n");
+	PORT_DATA_TO_ARDUPILOT = sdf->Get<int>("PORT_OUT");
+    }	
+    ROS_INFO( "PORT NUMBER: %d \n", PORT_DATA_TO_ARDUPILOT);
+
+
+
     if (!_sock_fdm_to_ardu->connect("127.0.0.1", PORT_DATA_TO_ARDUPILOT)) {
         //check_stdout();
         ROS_WARN( PLUGIN_LOG_PREPEND "FAILED to connect to port to ArduPilot\n");

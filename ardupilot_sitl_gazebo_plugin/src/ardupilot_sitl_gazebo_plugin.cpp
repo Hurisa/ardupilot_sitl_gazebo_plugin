@@ -26,6 +26,7 @@
 #include "../include/ardupilot_sitl_gazebo_plugin/ardupilot_sitl_gazebo_plugin.h"
 #include <math.h>
 
+
 // For threads,
 // See:
 // http://docs.ros.org/jade/api/gazebo_plugins/html/gazebo__ros__block__laser_8cpp_source.html
@@ -163,7 +164,7 @@ void ArdupilotSitlGazeboPlugin::Load(physics::WorldPtr world, sdf::ElementPtr sd
     if (!init_ros_side())
         return;
     
-    if (!init_ardupilot_side())
+    if (!init_ardupilot_side(sdf))
         return;
     
     ROS_INFO( PLUGIN_LOG_PREPEND "Initialization finished");
