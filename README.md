@@ -13,3 +13,5 @@ If you use ardupilot_gazebo plugin for multi agent simulations please cite
 	  journal={arXiv preprint arXiv:1811.06948},
 	  year={2018}
 	}
+
+This paper is available at: https://arxiv.org/pdf/1811.06948.pdf
