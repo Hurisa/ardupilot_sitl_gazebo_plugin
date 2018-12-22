@@ -1,12 +1,12 @@
 <?xml version="1.0"?>
 <robot name="sensor_kinect" xmlns:xacro="http://ros.org/wiki/xacro">
-  <property name="cam_px" value="1.63" />
+  <xacro:property name="cam_px" value="1.63" />
   <xacro:property name="kinect_cam_py" value="-0.0125"/>
-  <property name="cam_pz" value="0.68" />
+  <xacro:property name="cam_pz" value="0.68" />
   
-  <property name="cam_or" value="0" />
-  <property name="cam_op" value="0" />
-  <property name="cam_oy" value="0" />  
+  <xacro:property name="cam_or" value="0" />
+  <xacro:property name="cam_op" value="0" />
+  <xacro:property name="cam_oy" value="0" />  
 
   <xacro:property name="M_PI" value="3.1415926535897931" />
 
